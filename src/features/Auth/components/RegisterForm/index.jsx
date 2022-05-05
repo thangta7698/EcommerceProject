@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Avatar, Box, Button, LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from "yup";
 import InputField from '../../../../components/form-control/InputField';
@@ -42,16 +43,18 @@ RegisterForm.defaultProps = {
 // validate form
 const schema = yup.object().shape({
     fullName: yup
-        .string().required('Plese input ')
+        .string().required('Plese input this name ')
         .test('Please input', 'Name is invalid', (values) => {
             return values.split(' ').length >= 2;
         }),
-    password: yup.string().required('Please input this field').min(6, 'At least 6 characters'),
-    email: yup.string().required('Please Input').email('Invalid input')
+    password: yup.string().required('Please input this the password').min(6, 'At least 6 characters'),
+    retypePassword: yup.string().required('Please input the password').min(6, 'At least 6 characters'),
+    email: yup.string().required('Please Input').email('Invalid input the email')
 });
 
 function RegisterForm(props) {
     const { onSubmit } = props;
+    const [error, setError] = useState();
     const classes = useStyles();
     const form = useForm({
         defaultValues: {
@@ -65,10 +68,12 @@ function RegisterForm(props) {
 
     const handleSubmit = async (values) => {
         try {
+            setError('');
             if (!onSubmit) return;
             await onSubmit(values);
         }
         catch (error) {
+            console.log(error)
         }
     }
     const { formState: { isSubmitting } } = form

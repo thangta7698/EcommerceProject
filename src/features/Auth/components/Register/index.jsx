@@ -26,7 +26,7 @@ function Register({ handleClickRegisterForm = null }) {
             // history.push('/products')
         }
         catch (error) {
-            console.log('error', error)
+            console.log(error.response);
         }
 
     }

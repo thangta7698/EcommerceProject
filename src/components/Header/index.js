@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { ShoppingCart } from '@material-ui/icons';
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import MenuIcon from '@material-ui/icons/Menu';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
@@ -67,6 +67,7 @@ export default function Header() {
     const [anchorEl, setAnchorEl] = useState(null);
     const [showLogin, setShowLogin] = useState(LOGIN);
     const [showRegister, setShowRegister] = useState();
+    const [cartItemQty, setCartItemQty] = useState(CartItemCount);
 
     const openMenu = Boolean(anchorEl);
     // Handle Dialog Form
@@ -89,9 +90,11 @@ export default function Header() {
     };
     // Handle Logout
     const handleLogout = () => {
-        dispatch(logout());
         setAnchorEl(null);
-        return <Redirect to='/products' />
+        localStorage.removeItem('Cart_List');
+        setCartItemQty(0);
+        dispatch(logout());
+        return history.push('/products');
     }
     // Home
     const handleClick = () => {
@@ -109,6 +112,9 @@ export default function Header() {
         setShowLogin('');
         setShowRegister(REGISTER);
     }
+    useEffect(() => {
+        setCartItemQty(CartItemCount);
+    }, [CartItemCount]);
     return (
         <Box className={classes.root}>
             <AppBar position="static" >
@@ -122,7 +128,7 @@ export default function Header() {
                         </Typography>
                         {/* Login */}
                         <Typography><IconButton color="inherit">
-                            <Badge badgeContent={CartItemCount} color="secondary" onClick={clickToOrderForm}>
+                            <Badge badgeContent={cartItemQty} color="secondary" onClick={clickToOrderForm}>
                                 <ShoppingCart />
                             </Badge>
                         </IconButton></Typography>

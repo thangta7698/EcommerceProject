@@ -64,15 +64,15 @@ function OrderSummary(props) {
                     </ListItem>
                     <ListItem>
                         <Typography>Shipping fee</Typography>
-                        <Typography>0$</Typography>
+                        <Typography>0 VNĐ</Typography>
                     </ListItem>
                     <ListItem>
                         <Typography>Discount</Typography>
-                        <Typography>0$</Typography>
+                        <Typography>0 VNĐ</Typography>
                     </ListItem>
                     <ListItem>
                         <Typography style={{ fontWeight: '600' }}>Total</Typography>
-                        <Typography>{`${orderTotalPrice}$`}</Typography>
+                        <Typography>{`${orderTotalPrice}VNĐ`}</Typography>
                     </ListItem>
 
 
